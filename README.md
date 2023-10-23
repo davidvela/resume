@@ -6,7 +6,7 @@ Initially, the project was written with NodeJS architecture. [View Old Project](
 
 HTML is used for making the initial block structure of the page with some simple data, CSS is used for giving some style to the page, and JS is used to create small UI components dynamically and fill the data into the page. All the data about details related to the user is stored as a JSON object in a JS file.
 
-View it in action https://imvpn22.github.io/resume/
+View it in action https://davidvela.github.io/resume/
 
 ### Getting Started
 
@@ -29,7 +29,7 @@ Additionally, if you are using [VSCode](https://code.visualstudio.com/download),
 1. Clone the repo using git or download the zip of the project on your local system.
 To clone
 ```bash
-$ git clone https://github.com/imvpn22/resume.git
+$ git clone https://github.com/davidvela/resume.git
 ```
 
 2. Go into the `resume` directory and run
