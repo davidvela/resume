@@ -13,7 +13,7 @@ const profileData_EN = {
       cutting-edge solutions to meet evolving business needs. `,
     contact: {
       email:   'david.vela.tirado@gmail.com',
-      phone:   '+41 798660627',
+      phone:   '+41 763673117',
       address: 'Matthofring 42 Luzern 6005, Switzerland'
     }
   },

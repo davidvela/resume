@@ -9,7 +9,7 @@ const profileData_DE = {
     App. development and ABAP (SAP). Passionate about New Technologies and Digital Transformation.`,
     contact: {
       email:   'david.vela.tirado@gmail.com',
-      phone:   '+41 798660627',
+      phone:   '+41 763673117',
       address: 'Matthofring 42 Luzern 6005, Switzerland'
     }
   },
