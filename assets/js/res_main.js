@@ -1,3 +1,4 @@
+var contact_info_flag = false; 
 /* Define all the functions */
 const setTitle = data => {
   // Set page title
@@ -6,13 +7,14 @@ const setTitle = data => {
   document.querySelector('#profileSubTitle').innerHTML = data.sub_title;
   document.querySelector('#aboutIntro').innerHTML = data.about.intro;
   document.querySelector('#contactEmail').innerHTML = data.about.contact.email;
-  document
-    .querySelector('#contactEmail')
-    .setAttribute('href', `mailto:${data.about.contact.email}`);
-  document.querySelector('#contactPhone').innerHTML = data.about.contact.phone;
-  document.querySelector('#contactPhone').innerHTML = data.about.profile_picture;
-  /* document.querySelector('#contactAddress').innerHTML =
-    data.about.contact.address; */
+  if (contact_info_flag  == true ){
+    document
+      .querySelector('#contactEmail')
+      .setAttribute('href', `mailto:${data.about.contact.email}`);
+    document.querySelector('#contactPhone').innerHTML = data.about.contact.phone;
+    // document.querySelector('#contactPhone').innerHTML = data.about.profile_picture;
+    // document.querySelector('#contactAddress').innerHTML = data.about.contact.address; 
+  }
 };
 
 const setLinks = links => {
@@ -316,12 +318,11 @@ const setCatagoryHeader = title => {
 function load_profile(lang='EN'){
   //console.log(lang);
   // Call functions to load profile
-  if (lang=='EN') {
-    profileData= profileData_EN; 
-  }else if (lang=='DE'){
+  if (lang=='DE'){
     profileData= profileData_DE; 
+  }else {
+    profileData= profileData_EN; 
   }
-  
   setTitle(profileData);
   setLinks(profileData.links);
   setExperience(profileData.experiences);
@@ -331,16 +332,63 @@ function load_profile(lang='EN'){
   setCertification(profileData.certifications);
   setEvents(profileData.events);
 };
-//  Entry Function, IIFE
+function getAllUrlParameters() {
+  var queryString = window.location.search.substring(1);
+  var parameters = {};
+
+  // Check if there are any parameters
+  if (queryString) {
+    // Split the parameters using "&" as the delimiter
+    var parameterPairs = queryString.split("&");
+
+    // Loop through each parameter pair
+    for (var i = 0; i < parameterPairs.length; i++) {
+      // Split the pair into key and value
+      var pair = parameterPairs[i].split("=");
+
+      // Decode the key and value and add them to the parameters object
+      var key = decodeURIComponent(pair[0]);
+      var value = decodeURIComponent(pair[1] || "");
+
+      // Check if the key already exists in parameters
+      if (parameters.hasOwnProperty(key)) {
+        // If it does, convert the value into an array
+        if (Array.isArray(parameters[key])) {
+          parameters[key].push(value);
+        } else {
+          // If it doesn't, create an array and add both the existing value and the new value
+          parameters[key] = [parameters[key], value];
+        }
+      } else {
+        // If the key doesn't exist, simply add it to the parameters object
+        parameters[key] = value;
+      }
+    }
+  }
+  return parameters;
+};
 (() => {
-  var vlang = location.search.substring(1).split('=')[1];
-  console.log(vlang);
+  var urlParameters = getAllUrlParameters();
+  console.log(urlParameters);
+
+  //var vlang = location.search.substring(1).split('=')[1];
+  vlang = urlParameters.lang;
   if( vlang !== 'DE' ){
     vlang = 'EN';
   }
+  console.log(vlang)
+  var vcontact = urlParameters.contact;
+  if( vcontact == 'ALL' ){
+    vcontact = true;
+  }else {
+    vcontact = false; 
+  }
+  console.log(vcontact)
+
+  contact_info_flag = vcontact; 
   load_profile(vlang);
 })();
 
 /* testing: 
-  file:///Users/davidvelatirado/Downloads/WBD/resume/index.html?lang='EN'
+  file:///Users/davidvelatirado/Downloads/WBD/resume/index.html?lang=EN&contact=ALL
 */
