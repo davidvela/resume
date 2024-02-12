@@ -333,9 +333,14 @@ function load_profile(lang='EN'){
 };
 //  Entry Function, IIFE
 (() => {
-  load_profile('EN')
+  var vlang = location.search.substring(1).split('=')[1];
+  console.log(vlang);
+  if( vlang !== 'DE' ){
+    vlang = 'EN';
+  }
+  load_profile(vlang);
 })();
 
 /* testing: 
-  file:///Users/davidvelatirado/Downloads/WBD/resume/index.html
+  file:///Users/davidvelatirado/Downloads/WBD/resume/index.html?lang='EN'
 */
