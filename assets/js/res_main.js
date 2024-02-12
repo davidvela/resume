@@ -1,26 +1,21 @@
 /* Define all the functions */
-
-setTitle = data => {
+const setTitle = data => {
   // Set page title
   document.title = `${data.title} | ${data.name}`;
-
-  document.querySelector('#profileLogo').style[
-    'background-image'
-  ] = `url(${data.logoURL})`;
-
   document.querySelector('#profileName').innerHTML = data.name;
   document.querySelector('#profileSubTitle').innerHTML = data.sub_title;
-  // document.querySelector('#aboutIntro').innerHTML = data.about.intro;
+  document.querySelector('#aboutIntro').innerHTML = data.about.intro;
   document.querySelector('#contactEmail').innerHTML = data.about.contact.email;
   document
     .querySelector('#contactEmail')
     .setAttribute('href', `mailto:${data.about.contact.email}`);
   document.querySelector('#contactPhone').innerHTML = data.about.contact.phone;
+  document.querySelector('#contactPhone').innerHTML = data.about.profile_picture;
   /* document.querySelector('#contactAddress').innerHTML =
     data.about.contact.address; */
 };
 
-setLinks = links => {
+const setLinks = links => {
   const linksList = document.querySelector('#linksList');
   links.forEach(link => {
     const li = document.createElement('li');
@@ -34,6 +29,7 @@ setLinks = links => {
     const a = document.createElement('a');
     a.href = link.src;
     a.target = '_blank';
+    a.rel = 'noopener noreferrer';
     a.innerHTML = link.src;
     linkSrc.appendChild(a);
     li.appendChild(linkSrc);
@@ -42,7 +38,7 @@ setLinks = links => {
   });
 };
 
-setEducation = education => {
+const setEducation = education => {
   const ul = document.querySelector('#educationList');
   education.forEach(edu => {
     const li = document.createElement('li');
@@ -70,10 +66,10 @@ setEducation = education => {
     eduStd.innerHTML = edu.std;
     eduClassData.appendChild(eduStd);
 
-    const eduScore = document.createElement('span');
+    /* const eduScore = document.createElement('span');
     eduScore.className = 'edu-score';
     eduScore.innerHTML = edu.score;
-    eduClassData.appendChild(eduScore);
+    eduClassData.appendChild(eduScore);*/
 
     li.appendChild(eduClassData);
 
@@ -81,7 +77,7 @@ setEducation = education => {
   });
 };
 
-setProjects = projects => {
+const setProjects = projects => {
   const ul = document.querySelector('#projectList');
   projects.forEach(project => {
     const li = document.createElement('li');
@@ -108,6 +104,7 @@ setProjects = projects => {
       const a = document.createElement('a');
       a.href = project.link;
       a.target = '_blank';
+      a.rel = 'noopener noreferrer';
       a.innerHTML = `${project.link}`;
 
       projectLink.appendChild(a);
@@ -124,13 +121,13 @@ setProjects = projects => {
   });
 };
 
-setSkills = skills => {
+const setSkills = skills => {
   const skillList = document.querySelector('#skillList');
   skills.forEach(skill => {
     let type_klass = 'cat-skill-type';
     let body_klass = 'cat-skill-body';
 
-    if (skill.graph == 'false') {
+    if (!skill.graph) {
       type_klass += ' force-inline';
       body_klass += '-gen';
     }
@@ -146,7 +143,7 @@ setSkills = skills => {
     const catSkillBody = document.createElement('div');
     catSkillBody.className = body_klass;
 
-    if (skill.graph == 'true') {
+    if (skill.graph) {
       skill.topics.forEach(topic => {
         const skillGen = document.createElement('div');
         skillGen.className = 'skill-gen';
@@ -182,7 +179,7 @@ setSkills = skills => {
   });
 };
 
-setExperience = experiences => {
+const setExperience = experiences => {
   const expList = document.querySelector('#experienceList');
   experiences.forEach(exper => {
     const expListItem = document.createElement('li');
@@ -192,7 +189,7 @@ setExperience = experiences => {
 
     const expOrg = document.createElement('div');
     expOrg.className = 'exp-org';
-    expOrg.innerText = exper.organization;
+    expOrg.innerHTML = exper.organization;
     expItem.appendChild(expOrg);
 
     const expSub = document.createElement('div');
@@ -201,6 +198,12 @@ setExperience = experiences => {
     expTitle.className = 'exp-title';
     expTitle.innerHTML = `${exper.title}, (${exper.date})`;
     expSub.appendChild(expTitle);
+    /**/
+    const expDesc = document.createElement('span');
+    expDesc.className = 'expDet';
+    expDesc.innerHTML = '<br/>'+exper.desc;
+    expSub.appendChild(expDesc);
+    
 
     // const expDura = document.createElement('span');
     // expDura.className = 'ach-duration';
@@ -216,7 +219,7 @@ setExperience = experiences => {
       expDetails.className = 'expDet';
 
       exper.details.forEach(dText => {
-        detItem = document.createElement('li');
+        const detItem = document.createElement('li');
         detItem.style.listStyle = 'square';
         detItem.innerHTML = dText;
         expDetails.appendChild(detItem);
@@ -229,7 +232,7 @@ setExperience = experiences => {
   });
 };
 
-setEvents = events => {
+const setEvents = events => {
   const footer = document.querySelector('.footer');
   events.forEach(event => {
     const eventTitle = setCatagoryHeader(event.title);
@@ -248,7 +251,7 @@ setEvents = events => {
 
       const achTitle = document.createElement('div');
       achTitle.className = 'ach-title';
-      achTitle.innerText = evt.desc;
+      achTitle.innerHTML = evt.desc;
       achItem.appendChild(achTitle);
 
       const achDuration = document.createElement('div');
@@ -265,7 +268,31 @@ setEvents = events => {
   });
 };
 
-setCatagoryHeader = title => {
+const setCertification = certifications => {
+  const certList = document.getElementById('certList');
+
+  certifications.forEach(evt => {
+    const li = document.createElement('li');
+
+    const achItem = document.createElement('div');
+    achItem.className = 'ach-item';
+
+    const achTitle = document.createElement('div');
+    achTitle.className = 'ach-title';
+    achTitle.innerHTML = evt.desc;
+    achItem.appendChild(achTitle);
+
+    const achDuration = document.createElement('div');
+    achDuration.className = 'ach-duration';
+    achDuration.innerHTML = evt.date;
+    achItem.appendChild(achDuration);
+
+    li.appendChild(achItem);
+    certList.appendChild(li);
+  });
+};
+
+const setCatagoryHeader = title => {
   const catHeader = document.createElement('div');
   catHeader.className = 'cat-header';
 
@@ -286,34 +313,29 @@ setCatagoryHeader = title => {
   return catHeader;
 };
 
-correctHTML = () => {
-  const desc = document.getElementsByClassName('ach-title');
-  for (let i = 0; i < desc.length; i++) {
-    desc[i].innerHTML = desc[i].innerText;
-  }
-
-  window.addEventListener(
-    'load',
-    () => {
-      // Extra padding for last skill item
-      /*const skillItems = document.querySelectorAll(".footer > .cat-skill-item");
-        if (skillItems) {
-            skillItems[skillItems.length - 1].classList.add("pad-bottom-extra");
-        }*/
-    },
-    false
-  );
-};
-
-//  Entry Function
-(() => {
+function load_profile(lang='EN'){
+  //console.log(lang);
   // Call functions to load profile
+  if (lang=='EN') {
+    profileData= profileData_EN; 
+  }else if (lang=='DE'){
+    profileData= profileData_DE; 
+  }
+  
   setTitle(profileData);
   setLinks(profileData.links);
   setExperience(profileData.experiences);
   setProjects(profileData.projects);
   setSkills(profileData.skills);
   setEducation(profileData.education);
+  setCertification(profileData.certifications);
   setEvents(profileData.events);
-  correctHTML();
+};
+//  Entry Function, IIFE
+(() => {
+  load_profile('EN')
 })();
+
+/* testing: 
+  file:///Users/davidvelatirado/Downloads/WBD/resume/index.html
+*/
